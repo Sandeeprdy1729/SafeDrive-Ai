@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safe Drive AI</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <div class="logo">Safe Drive AI</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="driverscore.html">Driver Score</a></li>
+            <li><a href="Webcam.html">Driver Moniter</a></li>
+        </ul>
+    
+</nav>
+
+  <div class="container">
+    <h1>Safe Drive AI</h1>
+
+    <!-- Interactive Risk Map -->
+    <div class="section">
+      <h2>Interactive Risk Map</h2>
+      <div id="risk-map"></div>
+    </div>
+
+    <!-- Telematics and Road Safety Score -->
+    
+
+    <!-- Driver Distraction Detection -->
+    <div class="section">
+      <h2>Driver Distraction Detection</h2>
+      <div id="distraction-alerts"></div>
+    </div>
+
+    <!-- Citizen Reporting System -->
+    <div class="section">
+      <h2>Report Road Hazards</h2>
+      <form id="hazard-report-form">
+        <label for="hazard-type">Hazard Type:</label>
+        <select id="hazard-type" required>
+          <option value="pothole">Pothole</option>
+          <option value="broken-signal">Broken Traffic Signal</option>
+          <option value="dangerous-intersection">Dangerous Intersection</option>
+        </select>
+
+        <label for="hazard-photo">Upload Photo:</label>
+        <input type="file" id="hazard-photo" accept="image/*" required />
+
+        <button type="submit">Report Hazard</button>
+      </form>
+      <div id="reported-hazards"></div>
+    </div>
+  </div>
+  <!-- Add this to your existing HTML -->
+<div class="section">
+  <h2>Emergency Response</h2>
+  <div id="emergency-alert">
+    <p>No emergency detected.</p>
+  </div>
+  <button id="emergency-button">Call Emergency Services (108)</button>
+</div>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+  
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+  <script src="index.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+</body>
+</html>
