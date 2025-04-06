@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <div class="logo">Driver Score</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="driverscore.html">Driver Score</a></li>
+                <li><a href="Webcam.html">Driver Moniter</a></li>
+                
+            </ul>
+        
+    </nav>
+    <div class="dashboard">
+        <div class="metric-box">
+            <h3>Safety Score</h3>
+            <div class="score" id="safetyScore">85</div>
+        </div>
+        <div class="metric-box">
+            <h3>Current Speed</h3>
+            <div class="value" id="currentSpeed">65 km/h</div>
+        </div>
+        <div class="metric-box">
+            <h3>AI Feedback</h3>
+            <div class="feedback" id="aiFeedback">Maintain safe distance</div>
+        </div>
+    </div>
+
+    <section class="leaderboard">
+      <h2>Safety Leaderboard</h2>
+      <table id="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Driver</th>
+            <th>Safety Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Sarah Connor</td>
+            <td>97</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>John Driver</td>
+            <td>95</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Mike Safehands</td>
+            <td>94</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <div class="section">
+      <h2>Road Safety Score</h2>
+      <p id="safety-score">85</p>
+      <p id="incentives">Earned insurance of 10% on your vehcile</p>
+    </div>    
+    <script src="script.js"></script>
+</body>
+</html>
