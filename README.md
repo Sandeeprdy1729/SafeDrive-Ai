@@ -11,8 +11,5 @@
 <<<<<<< HEAD
 - Gemini API  
 -Real time Tracking
-=======
 - Gemini API 
-change
 
->>>>>>> afca33d (Add new paragraph)
