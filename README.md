@@ -8,7 +8,6 @@
 - Google Maps Platform  
 - Firebase Firestore  
 - Vertex AI  
-<<<<<<< HEAD
 - Gemini API  
 -Real time Tracking
 - Gemini API 
