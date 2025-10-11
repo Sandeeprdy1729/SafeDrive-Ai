@@ -1,4 +1,4 @@
-// Sample Data
+
 let userPoints = 0;
 let userCrossings = 0;
 let userBadges = 0;
@@ -15,14 +15,14 @@ const notifications = [
   "Reminder: Use FOB to earn rewards.",
 ];
 
-// Update User Stats
+
 function updateStats() {
   document.getElementById("points").textContent = userPoints;
   document.getElementById("crossings").textContent = userCrossings;
   document.getElementById("badges").textContent = userBadges;
 }
 
-// Populate Leaderboard
+
 function populateLeaderboard() {
   const leaderboardTable = document.getElementById("leaderboard-table").getElementsByTagName("tbody")[0];
   leaderboardData.forEach((entry) => {
@@ -33,7 +33,7 @@ function populateLeaderboard() {
   });
 }
 
-// Populate Notifications
+
 function populateNotifications() {
   const notificationList = document.getElementById("notification-list");
   notifications.forEach((notification) => {
@@ -43,7 +43,7 @@ function populateNotifications() {
   });
 }
 
-// Simulate QR Code Scan
+
 document.getElementById("scan-btn").addEventListener("click", () => {
   userPoints += 10;
   userCrossings += 1;
@@ -56,7 +56,7 @@ document.getElementById("scan-btn").addEventListener("click", () => {
   document.getElementById("scan-result").textContent = "QR Code Scanned! 10 points earned.";
 });
 
-// Initialize Dashboard
+
 updateStats();
 populateLeaderboard();
 populateNotifications();

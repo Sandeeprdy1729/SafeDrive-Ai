@@ -8,7 +8,7 @@ async function storeDriverData(db) {
     "driver_3": { "safetyScore": 95, "lastTrip": { "speedingIncidents": 0, "hardBraking": 1, "location": "26.274134, 94.065021" } },
     "driver_4": { "safetyScore": 61, "lastTrip": { "speedingIncidents": 3, "hardBraking": 2, "location": "13.308159, 76.271268" } },
     "driver_5": { "safetyScore": 68, "lastTrip": { "speedingIncidents": 2, "hardBraking": 5, "location": "20.765151, 92.732738" } },
-    // ... add remaining 95 drivers here ...
+    
   };
 }
   for (const [id, data] of Object.entries(drivers)) {
@@ -16,7 +16,7 @@ async function storeDriverData(db) {
   }
 
 
-//frontend/app.js
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -31,8 +31,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-// Add a sample driver profile to Firestore
 import { doc, setDoc } from "firebase/firestore"; 
 
 await setDoc(doc(db, "drivers", "driver_123"), {
@@ -45,7 +43,7 @@ await setDoc(doc(db, "drivers", "driver_123"), {
 });
 
 
-// frontend/app.js
+
 import { getDoc } from "firebase/firestore";
 
 const driverRef = doc(db, "drivers", "driver_123");

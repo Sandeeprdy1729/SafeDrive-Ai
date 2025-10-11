@@ -1,10 +1,10 @@
-// Initialize the Risk Map
-const map = L.map('risk-map').setView([37.7749, -122.4194], 10); // San Francisco
+
+const map = L.map('risk-map').setView([37.7749, -122.4194], 10); 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Add risk markers
+
 const riskData = [
   { lat: 37.7749, lon: -122.4194, risk: 0.8 }, // High risk
   { lat: 34.0522, lon: -118.2437, risk: 0.4 }, // Medium risk
@@ -20,7 +20,7 @@ riskData.forEach(({ lat, lon, risk }) => {
   }).bindPopup(`Risk: ${(risk * 100).toFixed(2)}%`).addTo(map);
 });
 
-// Telematics and Road Safety Score
+
 const telematicsData = {
   speedingIncidents: 2,
   hardBraking: 1,
@@ -51,7 +51,7 @@ driverRef.get().then((doc) => {
 });
 document.getElementById('incentives').textContent = `Incentives: ${offerIncentives(safetyScore)}`;
 
-// Driver Distraction Detection
+
 function detectDriverDistractions() {
   const distractions = {
     phoneUsage: Math.random() > 0.5,
