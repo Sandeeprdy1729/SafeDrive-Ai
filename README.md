@@ -1,4 +1,4 @@
-# googlesolutionchallenge
+
 # SafeDrive AI
 **Real-Time Motor Insurance Risk Mitigation System**  
 - Uses **Google Maps**, **Firebase**, **Vertex AI**, and **Gemini API**.  
