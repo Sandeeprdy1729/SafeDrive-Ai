@@ -2,21 +2,6 @@
 # SafeDrive AI
 **Real-Time Motor Insurance Risk Mitigation System**  
 
-Perfect choice 👍
-This is exactly what turns a **working project** into a **judge-ready, professional submission**.
-
-Below I’m giving you **both**:
-
-1️⃣ A **polished README.md** (copy–paste ready)
-2️⃣ A **clean `requirements.txt`** (no venv junk, no OS-specific files)
-
----
-
-# 📘 **README.md (POLISHED & HACKATHON-READY)**
-
-You can **replace your current README.md completely** with this.
-
----
 
 ```markdown
 # 🚗 SafeDrive-AI  
