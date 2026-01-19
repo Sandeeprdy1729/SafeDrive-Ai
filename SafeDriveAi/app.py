@@ -2,10 +2,55 @@ import cv2
 import numpy as np
 import math
 import time
+import json
+import os
+
 
 from mediapipe import Image, ImageFormat
 from mediapipe.tasks.python import vision
 from mediapipe.tasks.python import BaseOptions
+from datetime import datetime
+
+# ===============================
+# BLACK BOX EVENT STATE
+# ===============================
+EVENT_COOLDOWN = 8  # seconds
+
+last_event_time = 0
+risk_start_time = None
+
+max_yaw = 0
+max_pitch = 0
+mar_samples = []
+
+
+
+
+BLACKBOX_FILE = "blackbox_log.json"
+
+def log_near_miss(event_type, severity, pitch, yaw, roll, mar):
+    log_entry = {
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "event": event_type,
+        "severity": severity,
+        "pitch": round(pitch, 2),
+        "yaw": round(yaw, 2),
+        "roll": round(roll, 2),
+        "mar": round(mar, 2)
+    }
+
+    if not os.path.exists(BLACKBOX_FILE):
+        with open(BLACKBOX_FILE, "w") as f:
+            json.dump([], f)
+
+    with open(BLACKBOX_FILE, "r+") as f:
+        data = json.load(f)
+        data.append(log_entry)
+        f.seek(0)
+        json.dump(data, f, indent=2)
+
+    print("🧾 Near-Miss Logged:", log_entry)
+
 
 
 # ======================================================
@@ -112,31 +157,59 @@ yawn_events = []
 # MEDIAPIPE FACE LANDMARKER SETUP
 # ======================================================
 
-base_options = BaseOptions(model_asset_path="face_landmarker.task")
+print("📦 Loading Face Landmarker model...")
+try:
+    base_options = BaseOptions(model_asset_path="face_landmarker.task")
 
-options = vision.FaceLandmarkerOptions(
-    base_options=base_options,
-    num_faces=1,
-    output_face_blendshapes=False,
-    output_facial_transformation_matrixes=False
-)
+    options = vision.FaceLandmarkerOptions(
+        base_options=base_options,
+        num_faces=1,
+        output_face_blendshapes=False,
+        output_facial_transformation_matrixes=False
+    )
 
-face_landmarker = vision.FaceLandmarker.create_from_options(options)
+    face_landmarker = vision.FaceLandmarker.create_from_options(options)
+    print("✅ Face Landmarker loaded successfully")
+except Exception as e:
+    print(f"❌ Failed to load Face Landmarker: {e}")
+    exit(1)
 
 
 # ======================================================
 # CAMERA
 # ======================================================
 
+print("📷 Initializing camera...")
 cap = cv2.VideoCapture(0)
+
+# Add a small delay for camera to initialize
+time.sleep(1)
+
 if not cap.isOpened():
     print("❌ Camera not accessible")
+    print("   Possible reasons:")
+    print("   1. Camera is already in use by another app")
+    print("   2. Camera permissions not granted (macOS: Settings → Security & Privacy → Camera)")
+    print("   3. No camera device found")
     exit(1)
+
+# Set camera properties for better performance
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+cap.set(cv2.CAP_PROP_FPS, 30)
+
+print("✅ Camera initialized successfully")
 
 
 # ======================================================
 # MAIN LOOP
 # ======================================================
+
+# ===============================
+# NEAR-MISS STATE
+# ===============================
+distraction_frames = 0
+
 
 while True:
     ret, frame = cap.read()
@@ -188,23 +261,71 @@ while True:
             else:
                 pitch_delta = pitch - baseline_pitch
                 yaw_delta = yaw - baseline_yaw
+                mar = mouth_aspect_ratio(face_landmarks, frame.shape)
+
+                danger = False
+                reason = None
 
                 if pitch_delta < -12:
-                    status = "📱 PHONE / LOOKING DOWN"
-                    color = (0, 0, 255)
+                    danger = True
+                    reason = "PHONE_USAGE"
                 elif abs(yaw_delta) > 18:
-                    status = "👀 SIDE DISTRACTION"
-                    color = (0, 165, 255)
+                    danger = True
+                    reason = "SIDE_DISTRACTION"
+
+                # ===============================
+                # NEAR-MISS BLACK BOX LOGIC
+                # ===============================
+                if danger:
+                    if risk_start_time is None:
+                        risk_start_time = now
+
+                    max_pitch = min(max_pitch, pitch_delta)
+                    max_yaw = max(max_yaw, abs(yaw_delta))
+                    mar_samples.append(mar)
+
+                    duration = now - risk_start_time
+
+                    if duration >= 3:
+                        status = "🚨 HIGH RISK"
+                        color = (0, 0, 255)
+                        severity = "HIGH"
+                    else:
+                        status = "⚠️ DISTRACTED"
+                        color = (0, 165, 255)
+                        severity = "MEDIUM"
+
                 else:
+                    # Driver recovered → log once
+                    if risk_start_time:
+                        duration = now - risk_start_time
+
+                        if duration >= 1.5 and now - last_event_time >= EVENT_COOLDOWN:
+                            log_near_miss(
+                                event_type="NEAR_MISS",
+                                severity=severity,
+                                pitch=max_pitch,
+                                yaw=max_yaw,
+                                roll=roll,
+                                mar=float(np.mean(mar_samples)) if mar_samples else 0
+                            )
+                            last_event_time = now
+
+                        # Reset black-box state
+                        risk_start_time = None
+                        max_pitch = 0
+                        max_yaw = 0
+                        mar_samples.clear()
+
                     status = "✅ ATTENTIVE"
                     color = (0, 255, 0)
 
                 cv2.putText(frame, status, (20, 40),
                             cv2.FONT_HERSHEY_SIMPLEX, 1.0, color, 3)
 
-                # ---------- YAWN / FATIGUE ----------
-                mar = mouth_aspect_ratio(face_landmarks, frame.shape)
-
+                # ===============================
+                # FATIGUE / YAWN WARNING (NON-LOGGING)
+                # ===============================
                 if mar > YAWN_THRESHOLD:
                     if yawn_start is None:
                         yawn_start = now
@@ -221,12 +342,9 @@ while True:
                                 (20, 80),
                                 cv2.FONT_HERSHEY_SIMPLEX,
                                 0.9, (0, 255, 255), 3)
-
     cv2.imshow("SafeDrive-AI", frame)
-
-    if cv2.waitKey(1) & 0xFF == ord("q"):
+    if cv2.waitKey(1) & 0xFF == ord("q"): 
         break
 
-
-cap.release()
+cap.release() 
 cv2.destroyAllWindows()
