@@ -68,7 +68,8 @@ Real-Time Alerts & Visual Feedback
 
 ---
 
-## 🛠️ Tech Stack
+🛠️ Tech Stack used
+
 
 | Component | Technology |
 |--------|------------|
