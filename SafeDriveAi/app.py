@@ -12,6 +12,13 @@ from mediapipe.tasks.python import BaseOptions
 from datetime import datetime
 
 # ===============================
+# EMERGENCY PROTOCOL STATE
+# ===============================
+EMERGENCY_TIME = 6  # seconds
+emergency_triggered = False
+
+
+# ===============================
 # BLACK BOX EVENT STATE
 # ===============================
 EVENT_COOLDOWN = 8  # seconds
@@ -286,10 +293,23 @@ while True:
 
                     duration = now - risk_start_time
 
-                    if duration >= 3:
+                    if duration >= EMERGENCY_TIME and not emergency_triggered:
+                        emergency_triggered = True
+
+                        log_near_miss(
+                            event_type="EMERGENCY_EVENT",
+                            severity="CRITICAL",
+                            pitch=max_pitch,
+                            yaw=max_yaw,
+                            roll=roll,
+                            mar=float(np.mean(mar_samples)) if mar_samples else 0
+                        )
+
+                    elif duration >= 3:
                         status = "🚨 HIGH RISK"
                         color = (0, 0, 255)
                         severity = "HIGH"
+
                     else:
                         status = "⚠️ DISTRACTED"
                         color = (0, 165, 255)
@@ -342,6 +362,25 @@ while True:
                                 (20, 80),
                                 cv2.FONT_HERSHEY_SIMPLEX,
                                 0.9, (0, 255, 255), 3)
+    if emergency_triggered:
+        cv2.rectangle(frame, (0, 0), (frame.shape[1], frame.shape[0]), (0, 0, 255), -1)
+
+        cv2.putText(frame,
+                    "🚨 EMERGENCY MODE 🚨",
+                    (60, frame.shape[0]//2 - 20),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    1.4,
+                    (255, 255, 255),
+                    4)
+
+        cv2.putText(frame,
+                    "Driver Unresponsive",
+                    (90, frame.shape[0]//2 + 30),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    1.0,
+                    (255, 255, 255),
+                    3)
+
     cv2.imshow("SafeDrive-AI", frame)
     if cv2.waitKey(1) & 0xFF == ord("q"): 
         break
@@ -349,6 +388,4 @@ while True:
 cap.release()
 cv2.destroyAllWindows()
 
-#hu 
-#hu 
 
