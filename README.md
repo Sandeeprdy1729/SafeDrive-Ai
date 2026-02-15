@@ -10,7 +10,7 @@
 SafeDrive-AI is a **real-time, edge-based driver monitoring system** that goes beyond basic drowsiness detection.  
 It combines **facial landmarks, head-pose analysis, personalized calibration, and fatigue prediction** to detect **dangerous driving behavior before accidents happen**.
 
-> 🎯 Focus: **Pre-Accident Intelligence**, not post-accident detection.
+> 🎯 Focus: **Pre-Accident Intelligence**, ! post-accident detection.
 
 ---
 
