@@ -4,19 +4,19 @@
 
 
 ```markdown
-# 🚗 SafeDrive-AI  
+#  SafeDrive-AI  
 ### Personalized, On-Device Driver Safety & Fatigue Intelligence
 
 SafeDrive-AI is a **real-time, edge-based driver monitoring system** that goes beyond basic drowsiness detection.  
 It combines **facial landmarks, head-pose analysis, personalized calibration, and fatigue prediction** to detect **dangerous driving behavior before accidents happen**.
 
-> 🎯 Focus: **Pre-Accident Intelligence**, ! post-accident detection.
+>  Focus: **Pre-Accident Intelligence**, ! post-accident detection.
 
 ---
 
-## 🔥 Key Features (What Makes This Project Unique)
+##  Key Features (What Makes This Project Unique)
 
-### 🧠 1. Head Pose–Based Distraction Detection
+### 1. Head Pose–Based Distraction Detection
 - Estimates **Pitch, Yaw, Roll** in real time
 - Differentiates between:
   - 😴 Drowsiness
@@ -25,14 +25,14 @@ It combines **facial landmarks, head-pose analysis, personalized calibration, an
 
 ---
 
-### 👤 2. Personalized Driver Calibration
+###  2. Personalized Driver Calibration
 - First 3 seconds used to learn **individual baseline posture**
 - Alerts are based on **relative deviation**, not fixed thresholds
 - Reduces false positives across different drivers
 
 ---
 
-### 😮‍💨 3. Predictive Fatigue (Yawn Engine)
+###  3. Predictive Fatigue (Yawn Engine)
 - Uses **Mouth Aspect Ratio (MAR)** to detect yawns
 - Tracks **yawn frequency**
 - Triggers **fatigue warning before eye closure**
