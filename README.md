@@ -19,9 +19,9 @@ It combines **facial landmarks, head-pose analysis, personalized calibration, an
 ### 1. Head Pose–Based Distraction Detection
 - Estimates **Pitch, Yaw, Roll** in real time
 - Differentiates between:
-  - 😴 Drowsiness
-  - 📱 Phone usage (looking down)
-  - 👀 Side distraction
+  - Drowsiness
+  -  Phone usage (looking down)
+  -  Side distraction
 
 ---
 
@@ -41,14 +41,14 @@ It combines **facial landmarks, head-pose analysis, personalized calibration, an
 
 ---
 
-### 🛡️ 4. Edge-First & Privacy-Preserving
+###  4. Edge-First & Privacy-Preserving
 - Runs **fully on-device**
 - No cloud video upload
 - Camera frames never leave the system
 
 ---
 
-## 🧩 System Architecture
+##  System Architecture
 
 ```
 
@@ -68,7 +68,7 @@ Real-Time Alerts & Visual Feedback
 
 ---
 
-🛠️ Tech Stack used
+Tech Stack used
 
 
 | Component | Technology |
@@ -81,7 +81,7 @@ Real-Time Alerts & Visual Feedback
 
 ---
 
-## 🚀 How to Run the Project
+##  How to Run the Project
 
 ### 1️⃣ Clone the Repository
 ```bash
