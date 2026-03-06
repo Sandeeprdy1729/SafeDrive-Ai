@@ -182,7 +182,7 @@ numpy>=1.23
 
 ---
 
-## 🧪 OPTIONAL (Verify clean install)
+## OPTIONAL (Verify clean install)
 
 If you want to double-check:
 
